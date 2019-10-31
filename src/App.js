@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import InputForm from './components/InputForm';
+import RepoDetailsDisplay from './components/RepoDetailsDisplay';
 
 import axios from 'axios';
 
@@ -8,18 +9,19 @@ import axios from 'axios';
 function App() {
 
   const [githubName, setGithubName] = useState('');
-
-  // const USERNAME = 'anncrypt';
-  // const repo_URL = `https://api.github.com/users/${USERNAME}/repos`;
-
   // const [data, setData] = useState(null);
+
+  // const USERNAME = 'kallaway';
+  // const repo_URL = `https://api.github.com/users/${USERNAME}/events`;
+  // const repo_URL = `https://api.github.com/users/anncrypt/events`;
+
 
   // useEffect(() => {
   //   const request = async () => {
      
   //     await axios.get(`${repo_URL}`)
   //       .then(res => {
-  //         const forkedRepos = res.data.filter(repo => repo.fork);
+  //         const forkedRepos = res.type.filter(repo => repo.type === "ForkEvent");
   //         setData({ forkedRepos });
   //       })
   //       .catch((error) => {
@@ -27,8 +29,9 @@ function App() {
   //       })
   //     }
   //     request();
-
   // }, []);
+
+
 
   const handleChange = (e) => {
     setGithubName(e.target.value);
@@ -36,24 +39,26 @@ function App() {
 
   return (
     <div className="App">
-      <ContentWrapper>
+      <StyledContentWrapper>
+        {/* <p>{console.log(data)}</p> */}
        <InputForm
           githubName={githubName}
           handleChange={handleChange}
         />
-      </ContentWrapper>
+        <RepoDetailsDisplay />
+      </StyledContentWrapper>
     </div>
   );
 }
 
 // styles
-const ContentWrapper = styled.div`
+const StyledContentWrapper = styled.div`
   font-family: sans-serif;
   height: 90vh;
   font-size: 62.5%;
+  color: #24292e;
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;

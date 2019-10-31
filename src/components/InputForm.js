@@ -5,27 +5,23 @@ import Button from './Button';
 
 const InputForm = (props) => {
   return (
-    <>
+    <StyledInputForm>
       <InputField
         inputLabel="Github Username:"
         githubName={props.githubName}
         handleChange={props.handleChange}
       />
       <Button />
-    </>
+    </StyledInputForm>
   );
 }
 
 // styles
-const ContentWrapper = styled.div`
-  font-family: sans-serif;
-  height: 90vh;
-  font-size: 62.5%;
+const StyledInputForm = styled.div`
+  width: 30%;
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 `;
 
 export default InputForm;

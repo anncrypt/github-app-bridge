@@ -10,7 +10,7 @@ const InputField = (props) => {
   return (
     <>
       <StyledLabel htmlFor="githubUsername">{props.inputLabel}</StyledLabel>
-      <input 
+      <StyledInput 
         type="text"
         name="githubUsername"
         value={props.githubName}
@@ -22,9 +22,20 @@ const InputField = (props) => {
 
 // styles
 const StyledLabel = styled.label`
-  font-size: 1.5rem;
-  color: #2A2B2A;
+  font-size: 1.8rem;
+  text-align: left;
   font-weight: bold;
+  margin-bottom: 10px;
+`;
+
+const StyledInput = styled.input`
+  height: 50px;
+  color: #24292e;
+  font-size: 1.5rem;
+  margin-bottom: 25px;
+  padding-left: 10px;
+  border: 3px solid #dcdcdc;
+  border-radius: 5px;
 `;
 
 

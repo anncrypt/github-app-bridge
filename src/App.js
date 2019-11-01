@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import InputForm from './components/InputForm';
 import RepoDetailsDisplay from './components/RepoDetailsDisplay';
@@ -9,39 +9,44 @@ import axios from 'axios';
 function App() {
 
   const [githubName, setGithubName] = useState('');
-  // const [data, setData] = useState(null);
-
-  // const USERNAME = 'kallaway';
-  // const repo_URL = `https://api.github.com/users/${USERNAME}/events`;
-  // const repo_URL = `https://api.github.com/users/anncrypt/events`;
+  const [forkedRepos, setForkedRepos] = useState(null);
+  const [pullRequests, setPullRequests] = useState(null);
 
 
-  // useEffect(() => {
-  //   const request = async () => {
-     
-  //     await axios.get(`${repo_URL}`)
-  //       .then(res => {
-  //         const forkedRepos = res.type.filter(repo => repo.type === "ForkEvent");
-  //         setData({ forkedRepos });
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       })
-  //     }
-  //     request();
-  // }, []);
+  const repo_URL = `https://api.github.com/users/${githubName}/events`;
 
-
+  // helper functions
 
   const handleChange = (e) => {
     setGithubName(e.target.value);
   }
 
+  const handleFormSubmit = () => {
+    const request = async () => {
+
+      await axios.get(`${repo_URL}`)
+        .then(res => {
+          const reposForked = res.data.filter(repo => repo.type === "ForkEvent");
+          const pullReq = res.data.filter(repo => repo.type === "PullRequestEvent");
+          setForkedRepos(reposForked);
+          setPullRequests(pullReq);
+          console.log(reposForked);
+          console.log(pullReq);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+    request();
+  }
+
+
   return (
     <div className="App">
       <StyledContentWrapper>
-        {/* <p>{console.log(data)}</p> */}
+
        <InputForm
+          onSubmit={handleFormSubmit}
           githubName={githubName}
           handleChange={handleChange}
         />

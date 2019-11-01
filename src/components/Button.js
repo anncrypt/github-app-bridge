@@ -4,7 +4,9 @@ import styled from 'styled-components';
 const Button = (props) => {
 
   return (
-    <StyledButton>Get User</StyledButton>
+    <StyledButton type="submit">
+      Get User
+    </StyledButton>
   )
 }
 

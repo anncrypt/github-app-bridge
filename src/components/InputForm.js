@@ -4,8 +4,16 @@ import InputField from './InputField';
 import Button from './Button';
 
 const InputForm = (props) => {
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    props.onSubmit();
+  }
+
   return (
-    <StyledInputForm>
+    <StyledInputForm
+      onSubmit={handleFormSubmit}
+    >
       <InputField
         inputLabel="Github Username:"
         githubName={props.githubName}
@@ -17,7 +25,7 @@ const InputForm = (props) => {
 }
 
 // styles
-const StyledInputForm = styled.div`
+const StyledInputForm = styled.form`
   width: 30%;
 
   display: flex;

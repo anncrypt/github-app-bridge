@@ -12,6 +12,7 @@ const InputField = (props) => {
       <StyledLabel htmlFor="githubUsername">{props.inputLabel}</StyledLabel>
       <StyledInput 
         type="text"
+        placeholder="Type Something..."
         name="githubUsername"
         value={props.githubName}
         onChange={props.handleChange}

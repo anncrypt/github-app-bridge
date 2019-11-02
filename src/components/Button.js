@@ -21,7 +21,6 @@ const StyledButton = styled.button`
   color: white;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 5s ease-in;
   :hover {
     background: #f9429e;
     background: linear-gradient(-180deg, #ff5593, #f56970 90%);

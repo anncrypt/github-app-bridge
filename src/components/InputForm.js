@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import InputField from './InputField';
 import Button from './Button';
 
-const InputForm = (props) => {
+const InputForm = ({ githubName, handleChange, onSubmit}) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    props.onSubmit();
+    onSubmit();
   }
 
   return (
@@ -16,8 +16,8 @@ const InputForm = (props) => {
     >
       <InputField
         inputLabel="Github Username:"
-        githubName={props.githubName}
-        handleChange={props.handleChange}
+        githubName={githubName}
+        handleChange={handleChange}
       />
       <Button />
     </StyledInputForm>

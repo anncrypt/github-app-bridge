@@ -1,16 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const RepoCard = (props) => {
-
-  // const handleChange = (e) => {
-  //   setGithubName({ githubName: e.target.value });
-  // }
+const RepoCard = ({ pullRequests }) => {
 
   return (
     <StyledRepoCard>
-      <StyledHeading>anncrypt/personal-project-react</StyledHeading>
-      <StyledText>Forked From: bridge-school/personal-project-react</StyledText>
+      {!pullRequests ? <div>Loading...</div> : pullRequests.map(pulled => console.log(pulled))}
     </StyledRepoCard>
   )
 }
@@ -34,7 +29,6 @@ const StyledHeading = styled.h3`
 const StyledText = styled.p`
   font-size: 0.9rem;
   font-weight: bold;
-  ${'' /* color: #696969; */}
   margin: 0;
 `;
 

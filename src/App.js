@@ -8,6 +8,7 @@ import axios from 'axios';
 
 function App() {
 
+  // App state
   const [githubName, setGithubName] = useState('');
   const [forkedRepos, setForkedRepos] = useState(null);
   const [pullRequests, setPullRequests] = useState(null);
@@ -16,7 +17,6 @@ function App() {
   const repo_URL = `https://api.github.com/users/${githubName}/events`;
 
   // helper functions
-
   const handleChange = (e) => {
     setGithubName(e.target.value);
   }
@@ -26,12 +26,12 @@ function App() {
 
       await axios.get(`${repo_URL}`)
         .then(res => {
+          // filter received api response data by type and saving to related constants
           const reposForked = res.data.filter(repo => repo.type === "ForkEvent");
           const pullReq = res.data.filter(repo => repo.type === "PullRequestEvent");
+          // updating state with received data
           setForkedRepos(reposForked);
           setPullRequests(pullReq);
-          console.log(reposForked);
-          console.log(pullReq);
         })
         .catch((error) => {
           console.log(error);
@@ -44,13 +44,16 @@ function App() {
   return (
     <div className="App">
       <StyledContentWrapper>
-
        <InputForm
           onSubmit={handleFormSubmit}
           githubName={githubName}
           handleChange={handleChange}
         />
-        <RepoDetailsDisplay />
+        <RepoDetailsDisplay 
+          githubName={githubName}
+          forkedRepos={forkedRepos}
+          pullRequests={pullRequests}
+        />
       </StyledContentWrapper>
     </div>
   );

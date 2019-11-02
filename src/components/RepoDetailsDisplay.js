@@ -1,16 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import RepoCard from './RepoCard';
+import ForkedRepoCard from './ForkedRepoCard';
+import PullReqCard from './PullReqCard';
 import RepoHeading from './RepoHeading';
 
-const RepoDetailsDispaly = (props) => {
+const RepoDetailsDispaly = ({ githubName, pullRequests, forkedRepos }) => {
   return (
     <StyledRepoDetailsDisplay>
-      <StyledHeader>username</StyledHeader>
+      <StyledHeader>{githubName}</StyledHeader>
       <RepoHeading text="Recent Forks" />
-      <RepoCard />
+      <ForkedRepoCard forkedRepos={forkedRepos} />
       <RepoHeading text="Recent Pull Requests" />
-      <RepoCard />
+      <PullReqCard pullRequests={pullRequests} />
     </StyledRepoDetailsDisplay>
   );
 }

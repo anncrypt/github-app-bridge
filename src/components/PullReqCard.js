@@ -3,15 +3,25 @@ import styled from 'styled-components';
 
 const RepoCard = ({ pullRequests }) => {
 
+  // we are still waiting for data from the api
+  if (!pullRequests) {
+    return null;
+  }
+  // there are no pull requests to display
+  if (pullRequests.length === 0) {
+    return <StyledMessage>No recent pull requests found :(</StyledMessage>;
+  }
+
   return (
     <StyledCard>
-      {!pullRequests ? <div>Loading...</div> : pullRequests.map(pulled => {
+      {pullRequests.map((pulled, index) => {
 
         // destructuring received data
         const { pull_request, action } = pulled.payload;
+        const key = `${pull_request.html_url}-${index}`;
 
         return (
-          <>
+          <div key={key}>
             <StyledHeading 
               href={pull_request.html_url} 
               target="_blank"
@@ -19,7 +29,7 @@ const RepoCard = ({ pullRequests }) => {
               {pull_request.title}
             </StyledHeading>
             <StyledText>Status: {action}</StyledText>
-          </>
+          </div>
         );
       })}
     </StyledCard>
@@ -54,5 +64,12 @@ const StyledText = styled.p`
   margin-top: 10px;
 `;
 
+const StyledMessage = styled.p`
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #f56991;
+  margin: 0;
+  padding-left: 20px;
+`;
 
 export default RepoCard;

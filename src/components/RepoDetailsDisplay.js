@@ -3,14 +3,17 @@ import styled from 'styled-components';
 import ForkedRepoCard from './ForkedRepoCard';
 import PullReqCard from './PullReqCard';
 import RepoHeading from './RepoHeading';
+import Button from './Button';
 
-const RepoDetailsDispaly = ({ githubName, pullRequests, forkedRepos }) => {
+
+const RepoDetailsDispaly = ({ githubName, pullRequests, forkedRepos, handleReset }) => {
   return (
     <StyledRepoDetailsDisplay>
+      <Button handleReset={handleReset}>Reset</Button>
       <StyledHeader>{githubName}</StyledHeader>
-      <RepoHeading text="Recent Forks" />
+      <RepoHeading>Recent Forks</RepoHeading>
       <ForkedRepoCard forkedRepos={forkedRepos} />
-      <RepoHeading text="Recent Pull Requests" />
+      <RepoHeading>Recent Pull Requests</RepoHeading>
       <PullReqCard pullRequests={pullRequests} />
     </StyledRepoDetailsDisplay>
   );
@@ -27,6 +30,10 @@ const StyledRepoDetailsDisplay = styled.div`
 
 const StyledHeader = styled.h1`
   font-size: 2.5rem;
+  margin-bottom: 30px;
+
+  display: flex;
+  align-self: center;
 `;
 
 export default RepoDetailsDispaly;

@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const RepoHeading = (props) => {
+
+const RepoHeading = ({ children }) => {
   return (
     <StyledHeading>
-     {props.text}
+     {children}
     </StyledHeading>
   );
 }

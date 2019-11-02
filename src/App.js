@@ -12,6 +12,8 @@ function App() {
   const [githubName, setGithubName] = useState('');
   const [forkedRepos, setForkedRepos] = useState(null);
   const [pullRequests, setPullRequests] = useState(null);
+  const [appStep, setAppStep] = useState(1);
+  const [errAPI, setErrAPI] = useState(null);
 
 
   const repo_URL = `https://api.github.com/users/${githubName}/events`;
@@ -19,22 +21,33 @@ function App() {
   // helper functions
   const handleChange = (e) => {
     setGithubName(e.target.value);
+    // hide error msg when user starts typing
+    if (errAPI !== null) {
+      setErrAPI(null);
+    }
+  }
+
+  const handleReset = () => {
+    setAppStep(1);
   }
 
   const handleFormSubmit = () => {
     const request = async () => {
-
       await axios.get(`${repo_URL}`)
         .then(res => {
+
           // filter received api response data by type and saving to related constants
           const reposForked = res.data.filter(repo => repo.type === "ForkEvent");
           const pullReq = res.data.filter(repo => repo.type === "PullRequestEvent");
+
           // updating state with received data
           setForkedRepos(reposForked);
           setPullRequests(pullReq);
+          setAppStep(2);
         })
         .catch((error) => {
           console.log(error);
+          setErrAPI(error);
         })
     }
     request();
@@ -44,16 +57,22 @@ function App() {
   return (
     <div className="App">
       <StyledContentWrapper>
-       <InputForm
-          onSubmit={handleFormSubmit}
-          githubName={githubName}
-          handleChange={handleChange}
-        />
-        <RepoDetailsDisplay 
-          githubName={githubName}
-          forkedRepos={forkedRepos}
-          pullRequests={pullRequests}
-        />
+        {appStep === 1 && 
+          <InputForm
+            onSubmit={handleFormSubmit}
+            githubName={githubName}
+            handleChange={handleChange}
+            errorAPI={errAPI}
+          /> 
+        }
+        {appStep === 2 &&
+          <RepoDetailsDisplay
+            githubName={githubName}
+            forkedRepos={forkedRepos}
+            pullRequests={pullRequests}
+            handleReset={handleReset}
+          />
+        }
       </StyledContentWrapper>
     </div>
   );

@@ -1,18 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 const ForkedRepoCard = ({ forkedRepos }) => {
+
+  // we are still waiting for data from the api
+  if (!forkedRepos) {
+    return null;
+  }
+  // there are no forked repos to display
+  if (forkedRepos.length === 0) {
+    return <StyledMessage>No recent forked repos found :(</StyledMessage>;
+  }
 
   return (
     <StyledCard>
-      {!forkedRepos ? <div>Loading...</div> : forkedRepos.map(forked => {
+      {forkedRepos.map((forked, index) => {
 
         // destructuring received data
         const { forkee } = forked.payload;
         const { name } = forked.repo;
+        const key = `${forkee.html_url}-${index}`;
 
         return (
-          <>
+          <div key={key}>
             <StyledHeading 
               href={forkee.html_url} 
               target="_blank"
@@ -20,7 +31,7 @@ const ForkedRepoCard = ({ forkedRepos }) => {
               {forkee.full_name}
             </StyledHeading>
             <StyledText>Forked From: {name}</StyledText>
-          </>
+          </div>
         );
       })}
     </StyledCard>
@@ -53,6 +64,14 @@ const StyledText = styled.p`
   font-weight: bold;
   margin: 0;
   margin-top: 10px;
+`;
+
+const StyledMessage = styled.p`
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #f56991;
+  margin: 0;
+  padding-left: 20px;
 `;
 
 

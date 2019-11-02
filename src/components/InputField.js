@@ -1,21 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const InputField = (props) => {
 
-  // const handleChange = (e) => {
-  //   setGithubName({ githubName: e.target.value });
-  // }
+const InputField = ({ inputLabel, githubName, handleChange }) => {
 
   return (
     <>
-      <StyledLabel htmlFor="githubUsername">{props.inputLabel}</StyledLabel>
+      <StyledLabel htmlFor="githubUsername">{inputLabel}</StyledLabel>
       <StyledInput 
         type="text"
         placeholder="Type Something..."
         name="githubUsername"
-        value={props.githubName}
-        onChange={props.handleChange}
+        value={githubName}
+        onChange={handleChange}
       />
     </>
   )

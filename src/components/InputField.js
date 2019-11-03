@@ -5,21 +5,21 @@ import { connect } from 'react-redux';
 import { setGithubName } from '../actions';
 
 
-const InputField = ({ inputLabel, githubName, setGithubName }) => {
+const InputField = (props) => {
  
 
   const handleChange = (e) => {
-    setGithubName(e.target.value);
+    props.setGithubName(e.target.value);
   }
 
   return (
     <>
-      <StyledLabel htmlFor="githubUsername">{inputLabel}</StyledLabel>
+      <StyledLabel htmlFor="githubUsername">{props.inputLabel}</StyledLabel>
       <StyledInput 
         type="text"
         placeholder="Type Something..."
         name="githubUsername"
-        value={githubName}
+        value={props.githubName}
         onChange={handleChange}
       />
     </>

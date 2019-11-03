@@ -14,7 +14,6 @@ const initialState = {
 }
 
 const rootReducer = (state = initialState, action) => {
-  console.log(state)
   
   switch (action.type) {
     case SET_GITHUB_NAME: 

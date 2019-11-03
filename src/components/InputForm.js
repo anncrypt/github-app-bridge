@@ -1,17 +1,34 @@
 import React from 'react';
-import styled from 'styled-components';
 import InputField from './InputField';
 import SubmitButton from './SubmitButton';
+import styled from 'styled-components';
+import axios from 'axios';
 
 import { connect } from 'react-redux';
-import { setGithubName, setAppStep } from '../actions';
-
+import { setGithubName, getGithubEventsSuccess, getGithubEventsError } from '../actions';
 
 const InputForm = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    props.onSubmit();
+
+    const repo_URL = `https://api.github.com/users/${props.githubName}/events`;
+
+    const request = async () => {
+      await axios.get(`${repo_URL}`)
+        .then(res => {
+          // filter received api response data by type and saving to related constants
+          const reposForked = res.data.filter(repo => repo.type === "ForkEvent");
+          const pullReq = res.data.filter(repo => repo.type === "PullRequestEvent");
+          // updating state with received data
+          props.onRequestSuccess(reposForked, pullReq);
+        })
+        .catch((error) => {
+          console.log(error);
+          props.onRequestError(error);
+        })
+    }
+    request();
   }
 
   return (
@@ -40,17 +57,23 @@ const ErrorMessage = styled.p`
   font-size: 1.3rem;
 `;
 
-
 const mapStateToProps = (state) => {
   return {
-    errAPI: state.errAPI
+    errAPI: state.errAPI,
+    githubName: state.githubName
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      setGithubName: name => {
-      dispatch(setGithubName(name))
+    setGithubName: name => {
+      dispatch(setGithubName(name));
+    },
+    onRequestSuccess: (forkedRepos, pullRequests) => {
+      dispatch(getGithubEventsSuccess(forkedRepos, pullRequests));
+    },
+    onRequestError: error => {
+      dispatch(getGithubEventsError(error));
     }
   }
 }

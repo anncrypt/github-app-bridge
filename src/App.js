@@ -4,32 +4,13 @@ import InputForm from './components/InputForm';
 import RepoDetailsDisplay from './components/RepoDetailsDisplay';
 
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { getGithubEventsSuccess, getGithubEventsError } from './actions';
 
 
-function App() {
+function App(props) {
 
-  // App state
-  const [githubName, setGithubName] = useState('');
-  const [forkedRepos, setForkedRepos] = useState(null);
-  const [pullRequests, setPullRequests] = useState(null);
-  const [appStep, setAppStep] = useState(1);
-  const [errAPI, setErrAPI] = useState(null);
-
-
-  const repo_URL = `https://api.github.com/users/${githubName}/events`;
-
-  // helper functions
-  const handleChange = (e) => {
-    setGithubName(e.target.value);
-    // hide error msg when user starts typing
-    if (errAPI !== null) {
-      setErrAPI(null);
-    }
-  }
-
-  const handleReset = () => {
-    setAppStep(1);
-  }
+  const repo_URL = `https://api.github.com/users/${props.githubName}/events`;
 
   const handleFormSubmit = () => {
     const request = async () => {
@@ -41,13 +22,11 @@ function App() {
           const pullReq = res.data.filter(repo => repo.type === "PullRequestEvent");
 
           // updating state with received data
-          setForkedRepos(reposForked);
-          setPullRequests(pullReq);
-          setAppStep(2);
+          props.onRequestSuccess(reposForked, pullReq);
         })
         .catch((error) => {
           console.log(error);
-          setErrAPI(error);
+          props.onRequestError(error);
         })
     }
     request();
@@ -57,22 +36,12 @@ function App() {
   return (
     <div className="App">
       <StyledContentWrapper>
-        {appStep === 1 && 
+        {props.appStep === 1 && 
           <InputForm
             onSubmit={handleFormSubmit}
-            githubName={githubName}
-            handleChange={handleChange}
-            errorAPI={errAPI}
           /> 
         }
-        {appStep === 2 &&
-          <RepoDetailsDisplay
-            githubName={githubName}
-            forkedRepos={forkedRepos}
-            pullRequests={pullRequests}
-            handleReset={handleReset}
-          />
-        }
+        { props.appStep === 2 && <RepoDetailsDisplay /> }
       </StyledContentWrapper>
     </div>
   );
@@ -90,4 +59,22 @@ const StyledContentWrapper = styled.div`
   align-items: center;
 `;
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    appStep: state.appStep,
+    githubName: state.githubName
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRequestSuccess: (forkedRepos, pullRequests) => {
+      dispatch(getGithubEventsSuccess(forkedRepos, pullRequests));
+    },
+    onRequestError: error => {
+      dispatch(getGithubEventsError(error));
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

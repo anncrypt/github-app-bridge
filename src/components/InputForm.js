@@ -3,27 +3,24 @@ import styled from 'styled-components';
 import InputField from './InputField';
 import SubmitButton from './SubmitButton';
 
+import { connect } from 'react-redux';
+import { setGithubName, setAppStep } from '../actions';
 
-const InputForm = ({ githubName, handleChange, onSubmit, errorAPI }) => {
+
+const InputForm = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    onSubmit();
+    props.onSubmit();
   }
 
   return (
-    <StyledInputForm
-      onSubmit={handleFormSubmit}
-    >
+    <StyledInputForm onSubmit={handleFormSubmit} >
       {/* error handling in case username doesn't exist or api request failed */}
-      {errorAPI && <ErrorMessage>
+      {props.errAPI && <ErrorMessage>
         Sorry, something went wrong... Make sure GitHub username is correct.
       </ErrorMessage>}
-      <InputField
-        inputLabel="Github Username:"
-        githubName={githubName}
-        handleChange={handleChange}
-      />
+      <InputField inputLabel="Github Username:" />
       <SubmitButton />
     </StyledInputForm>
   );
@@ -43,4 +40,19 @@ const ErrorMessage = styled.p`
   font-size: 1.3rem;
 `;
 
-export default InputForm;
+
+const mapStateToProps = (state) => {
+  return {
+    errAPI: state.errAPI
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      setGithubName: name => {
+      dispatch(setGithubName(name))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputForm);

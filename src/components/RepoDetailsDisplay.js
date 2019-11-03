@@ -5,16 +5,24 @@ import PullReqCard from './PullReqCard';
 import RepoHeading from './RepoHeading';
 import Button from './Button';
 
+import { connect } from 'react-redux'; 
+import { setAppStep } from '../actions'
 
-const RepoDetailsDispaly = ({ githubName, pullRequests, forkedRepos, handleReset }) => {
+
+const RepoDetailsDispaly = (props) => {
+
+  const handleReset = () => {
+    props.setStep(1);
+  }
+
   return (
     <StyledRepoDetailsDisplay>
       <Button handleReset={handleReset}>Reset</Button>
-      <StyledHeader>{githubName}</StyledHeader>
+      <StyledHeader>{props.githubName}</StyledHeader>
       <RepoHeading>Recent Forks</RepoHeading>
-      <ForkedRepoCard forkedRepos={forkedRepos} />
+      <ForkedRepoCard forkedRepos={props.forkedRepos} />
       <RepoHeading>Recent Pull Requests</RepoHeading>
-      <PullReqCard pullRequests={pullRequests} />
+      <PullReqCard pullRequests={props.pullRequests} />
     </StyledRepoDetailsDisplay>
   );
 }
@@ -36,4 +44,19 @@ const StyledHeader = styled.h1`
   align-self: center;
 `;
 
-export default RepoDetailsDispaly;
+const mapStateToProps = (state) => {
+  return {
+    pullRequests: state.pullRequests,
+    forkedRepos: state.forkedRepos
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setStep: step => {
+      dispatch(setAppStep(step))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RepoDetailsDispaly);

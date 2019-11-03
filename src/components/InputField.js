@@ -1,8 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { connect } from 'react-redux';
+import { setGithubName } from '../actions';
 
-const InputField = ({ inputLabel, githubName, handleChange }) => {
+
+const InputField = ({ inputLabel, githubName, setGithubName }) => {
+ 
+
+  const handleChange = (e) => {
+    setGithubName(e.target.value);
+  }
 
   return (
     <>
@@ -36,5 +44,18 @@ const StyledInput = styled.input`
   border-radius: 5px;
 `;
 
+const mapStateToProps = (state) => {
+  return {
+    githubName: state.githubName,
+  }
+}
 
-export default InputField;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setGithubName: name => {
+      dispatch(setGithubName(name))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputField);

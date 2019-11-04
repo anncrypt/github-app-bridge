@@ -5,7 +5,7 @@ import {
   GET_GITHUB_EVENTS_ERROR,
 } from '../actions';
 
-const initialState = {
+export const initialState = {
   githubName: '',
   forkedRepos: null,
   pullRequests: null,

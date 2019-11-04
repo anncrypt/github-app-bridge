@@ -1,15 +1,17 @@
-// import React from 'react';
-// // import ShallowRenderer from 'react-test-renderer/shallow';
-// import renderer from 'react-test-renderer';
-// import App from '../App';
+import React from 'react';
+import ShallowRenderer from 'react-test-renderer/shallow';
+import App from '../App';
 
-// describe('App', () => {
-//   test('Should render properly', () => {
-//     const element = renderer.create(<App />).toJSON();
-//     // using the lines instead of the one above generates a shallow snapshot.
-//     // const renderer = new ShallowRenderer();
-//     // const element = renderer.render(<App />).getRenderOutput();
+import { Provider } from 'react-redux';
+import store from '../state/store';
 
-//     expect(element).toMatchSnapshot();
-//   });
-// });
+describe('App', () => {
+  test('Should render properly', () => {
+    const renderer = new ShallowRenderer();
+    const element = renderer.render(
+      <Provider store={store}>
+        <App />
+      </Provider>);
+    expect(element).toMatchSnapshot();
+  });
+});

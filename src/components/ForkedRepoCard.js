@@ -14,27 +14,29 @@ const ForkedRepoCard = ({ forkedRepos }) => {
   }
 
   return (
-    <StyledCard>
-      {forkedRepos.map((forked, index) => {
+    <>
+      {forkedRepos
+        .filter((item, index) => index < 5)
+        .map((forked, index) => {
 
-        // destructuring received data
-        const { forkee } = forked.payload;
-        const { name } = forked.repo;
-        const key = `${forkee.html_url}-${index}`;
+          // destructuring received data
+          const { forkee } = forked.payload;
+          const { name } = forked.repo;
+          const key = `${forkee.html_url}-${index}`;
 
-        return (
-          <div key={key}>
-            <StyledHeading 
-              href={forkee.html_url} 
-              target="_blank"
-            >
-              {forkee.full_name}
-            </StyledHeading>
-            <StyledText>Forked From: {name}</StyledText>
-          </div>
-        );
-      })}
-    </StyledCard>
+          return (
+            <StyledCard key={key}>
+              <StyledHeading 
+                href={forkee.html_url} 
+                target="_blank"
+              >
+                {forkee.full_name}
+              </StyledHeading>
+              <StyledText>Forked From: {name}</StyledText>
+            </StyledCard>
+          );
+        })}
+    </>
   )
 }
 
@@ -43,6 +45,7 @@ const StyledCard = styled.div`
   border: 3px solid #dcdcdc;
   border-radius: 8px;
   padding: 10px 20px;
+  margin-bottom: 10px;
   color: #333;
 `;
 

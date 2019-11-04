@@ -13,26 +13,28 @@ const RepoCard = ({ pullRequests }) => {
   }
 
   return (
-    <StyledCard>
-      {pullRequests.map((pulled, index) => {
+    <>
+      {pullRequests
+        .filter((item, index) => index < 5)
+        .map((pulled, index) => {
 
-        // destructuring received data
-        const { pull_request, action } = pulled.payload;
-        const key = `${pull_request.html_url}-${index}`;
+          // destructuring received data
+          const { pull_request, action } = pulled.payload;
+          const key = `${pull_request.html_url}-${index}`;
 
-        return (
-          <div key={key}>
-            <StyledHeading 
-              href={pull_request.html_url} 
-              target="_blank"
-            >
-              {pull_request.title}
-            </StyledHeading>
-            <StyledText>Status: {action}</StyledText>
-          </div>
-        );
-      })}
-    </StyledCard>
+          return (
+            <StyledCard key={key}>
+              <StyledHeading 
+                href={pull_request.html_url} 
+                target="_blank"
+              >
+                {pull_request.title}
+              </StyledHeading>
+              <StyledText>Status: {action}</StyledText>
+            </StyledCard>
+          );
+        })}
+    </>
   )
 }
 
@@ -41,6 +43,7 @@ const StyledCard = styled.div`
   border: 3px solid #dcdcdc;
   border-radius: 8px;
   padding: 10px 20px;
+  margin-bottom: 10px;
   color: #333;
 `;
 

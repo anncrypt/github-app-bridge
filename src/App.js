@@ -1,16 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
+
 import InputForm from './components/InputForm';
 import RepoDetailsDisplay from './components/RepoDetailsDisplay';
 
-import { connect } from 'react-redux';
-
 function App (props) {
-
   return (
     <div className="App">
       <StyledContentWrapper>
-        {props.appStep === 1 && <InputForm /> }
+        { props.appStep === 1 && <InputForm /> }
         { props.appStep === 2 && <RepoDetailsDisplay /> }
       </StyledContentWrapper>
     </div>
